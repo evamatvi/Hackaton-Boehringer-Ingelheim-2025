@@ -8,6 +8,41 @@ Este proyecto se distribuye bajo **Apache License 2.0**. Las contribuciones incl
 Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
 
 ## 📂 Estructura del repositorio
+Equipo-equipo-debug-queens-5/
+│
+├── data/                  
+│   ├── clean_data_debug.csv
+│   ├── data.csv
+│   └── reglas_descubiertas_ia.txt
+│
+├── plots/                 <-- Todas las imágenes que has generado
+│   ├── 1_balance_clases.png
+│   ├── ...
+│   └── 7_learning_curve.png
+│
+├── model_xgb.pkl          <-- El "CEREBRO"
+│
+├── src/                   
+│   │
+│   │   # --- EL NÚCLEO (Core) ---
+│   ├── data_processor.py  (Limpiar y procesar base de datos)
+│   ├── data_validation_plots.py (General los plots para entender dataset de entrenamiento procesado)
+│   ├── train.py           (Entrnador del Gradient Boosting)
+│   ├── app.py             (La Web - La crearemos ahora)
+│   │
+│   │   # --- LOS ANALISTAS (Support) ---
+│   │   # Sugiero ponerles prefijo 'analysis_' para agruparlos
+│   ├── analysis_basic.py        <-- (Era visualization.py)
+│   ├── analysis_auditoria.py    <-- (Era audit_overfitting.py / deep_audit)
+│   ├── analysis_estres.py       <-- (Era stress_test.py)
+│   └── analysis_plots.py        <-- (Era validation_plots.py)
+│
+└── README.md
+
+
+
+
+
 - `src/` → Código fuente principal
 - `tests/` → Pruebas automáticas
 - `docs/` → Documentación del proyecto
