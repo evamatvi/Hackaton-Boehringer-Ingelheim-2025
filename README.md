@@ -8,6 +8,7 @@ Este proyecto se distribuye bajo **Apache License 2.0**. Las contribuciones incl
 Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
 
 ## 📂 Estructura del repositorio
+```
 Equipo-equipo-debug-queens-5/
 │
 ├── data/                  
@@ -39,7 +40,7 @@ Equipo-equipo-debug-queens-5/
 │
 └── README.md
 
-
+```
 
 
 
