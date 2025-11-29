@@ -11,7 +11,8 @@ Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
 - `src/` → Código fuente principal
 - `tests/` → Pruebas automáticas
 - `docs/` → Documentación del proyecto
-- `data/` → Datos locales (no versionados; no subir datos sensibles)
+- `data/` → Datos locales (no versionados; no subir datos sensibles) y los datos procesados para verificación
+- `plots/` → Gráficos en png que explican los datos usados para entrenar el modelo de IA
 - `.github/workflows/` → Integración continua (CI)
 
 ## 🚀 Cómo empezar
