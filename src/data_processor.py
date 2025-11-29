@@ -83,9 +83,19 @@ def load_and_clean_data():
 
 # --- EJECUCIÓN ---
 if __name__ == "__main__":
-    df_final = load_and_clean_data()
-    if df_final is not None:
-        print("\n[CHECK FINAL] Tipos de datos (¡Todo debe ser float/int!):")
-        print(df_final.info())
-        print("\n[PREVIEW] Primeras filas con nuevas variables:")
-        print(df_final[['history_score', 'bp_alarm', 'classification']].head())
+    print("Modo Prueba: Ejecutando y guardando CSV de control")
+    df_limpio = load_and_clean_data()
+    
+    if df_limpio is not None:
+        print("\n[CHECK FINAL] Tipos de datos:")
+        print(df_limpio.info())
+        
+        # --- AQUÍ ESTÁ EL CAMBIO ---
+        # Guardamos el archivo limpio para que Eva pueda abrirlo en Excel y verificarlo
+        # Lo guardamos en la carpeta data
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        output_path = os.path.join(current_dir, '..', 'data', 'clean_data_debug.csv')
+        
+        df_limpio.to_csv(output_path, index=False)
+        print(f"\n Archivo de control guardado en: {output_path}")
+        print("(Puedes abrirlo en Excel para revisarlo manualmente)")
