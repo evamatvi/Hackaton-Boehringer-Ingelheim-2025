@@ -110,3 +110,4 @@ Toda la memoria y explicación del proyecto en detalle, tanto el marco médico c
 
 ## 👥 Créditos
 Incluye autores del equipo y mentores si aplica.
+"# Hackaton-Boehringer-Ingelheim-2025" 
