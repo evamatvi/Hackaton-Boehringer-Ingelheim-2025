@@ -1,0 +1,21 @@
+AUDITORÍA DE LÓGICA INTERNA (XGBoost)
+=======================================
+Este archivo muestra cómo toma decisiones el modelo.
+Formato: [Variable < Valor] yes=... no=...
+
+0:[renal_risk_ratio<1.29999995] yes=1,no=2,missing=2
+	1:[sg<1.01999998] yes=3,no=4,missing=4
+		3:leaf=0.120463327
+		4:[hemo<13.1000004] yes=7,no=8,missing=8
+			7:leaf=-0.0311688315
+			8:leaf=-0.255431205
+	2:[hemo<13.8000002] yes=5,no=6,missing=5
+		5:leaf=0.155603275
+		6:[rbc<1] yes=9,no=10,missing=10
+			9:leaf=-0.143884897
+			10:leaf=0.104347825
+
+
+INTERPRETACIÓN:
+- Si ves 'renal_risk_ratio < 1.3', significa que esa es la regla de oro.
+- Si ves 'hemo < 13', confirma la anemia como factor clave.
