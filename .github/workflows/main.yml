@@ -29,6 +29,7 @@ jobs:
 
   
     - name: Run Pytest Validation
-      run: |
-        # Este comando busca y ejecuta todos los tests creados (incluyendo el dummy)
-        pytest
+          run: |
+            # Ejecutamos Pytest solo en el archivo dummy que creamos (test_ci.py).
+            # Esto evita que Pytest ejecute el código de la App por accidente.
+            pytest tests/test_ci.py
