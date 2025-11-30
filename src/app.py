@@ -165,47 +165,36 @@ if patient_df is not None:
     st.markdown("---")
     
     # --- MOSTRAR DATOS DEL PACIENTE (Ficha Clínica) ---
-    st.subheader(f"Ficha del Paciente: {selected_id}")
+    st.subheader(f"Datos del paciente: {selected_id}")
+
+    tab_clinica, tab_lab = st.tabs(["Historia", "Analítica"])
     
-    # Fila 1: Constantes vitales y maracdores clave
-    col_info1, col_info2, col_info3, col_info4 = st.columns(4)
-    with col_info1:
-        st.metric("Edad", f"{int(p_data.get('age', 0))} años")
-    with col_info2:
-        st.metric("Presión Arterial", f"{p_data.get('bp', '?')} mmHg")
-    with col_info3:
-        st.metric("Creatinina (sc)", f"{p_data.get('sc', '?')} mg/dL")
-    with col_info4:
-        # Mostramos la Albúmina interpretada
+    with tab_clinica:
+        col_a, col_b, col_c, col_d = st.columns(4)
+        col_a.metric("Edad", f"{int(p_data.get('age', 0))} años")
+        col_b.metric("Presión Arterial", f"{p_data.get('bp', '?')} mmHg")
+        
+        st.markdown("---")
+        htn_txt = "SÍ" if p_data.get('htn', 0) == 1 else "No"
+        dm_txt = "SÍ" if p_data.get('dm', 0) == 1 else "No"
+        pe_txt = "SÍ" if p_data.get('pe', 0) == 1 else "No"
+        appet_txt = "Pobre" if p_data.get('appet', 0) == 1 else "Bueno"
+        
+        col_c.metric("Hipertensión / Diabetes", f"{htn_txt} / {dm_txt}")
+        col_d.metric("Edema / Apetito", f"{pe_txt} / {appet_txt}")
+        
+    with tab_lab:
+        col_lab1, col_lab2, col_lab3 = st.columns(3)
+        col_lab1.metric("Creatinina (sc)", f"{p_data.get('sc', '?')} mg/dL")
+        col_lab1.metric("Hemoglobina (hemo)", f"{p_data.get('hemo', '?')} g/dL")
+        
+        # Albúmina interpretada
         alb_val = p_data.get('al', 0)
-        alb_texto = "Negativo" if alb_val == 0 else f"Positivo ({int(alb_val)}+)"
-        st.metric("Albúmina en Orina", alb_texto)
-    
-    # Fila 2: Sangre y Antecedentes
-    col_info5, col_info6, col_info7, col_info8 = st.columns(4)
-    with col_info5:
-        st.metric("Hemoglobina", f"{p_data.get('hemo', '?')} g/dL")
-    with col_info6:
-        st.metric("Glucosa (bgr)", f"{p_data.get('bgr', '?')} mg/dL")
-    with col_info7:
-        # Gravedad Específica (sg) - Lo usa mucho el modelo
-        st.metric("Densidad Orina (sg)", f"{p_data.get('sg', '?')}")
-    with col_info8:
-        # Estado físico: Edema (Pies hinchados)
-        edema = "Sí" if p_data.get('pe', 0) == 1 else "No"
-        st.metric("Edema Pedio", edema)
-    
-    # Fila 3: Riesgos y Síntomas 
-    col_info9, col_info10  = st.columns(2)
-    with col_info9:
-        # Resumen de antecedentes (HTN/DM)
-        htn = "SÍ" if p_data.get('htn', 0) == 1 else "No"
-        dm = "SÍ" if p_data.get('dm', 0) == 1 else "No"
-        st.metric("Hipertensión / Diabetes", f"{htn} / {dm}")
-    with col_info10:
-        # Estado del Apetito (Signo sutil)
-        appet = "Bueno" if p_data.get('appet', 0) == 0 else "Pobre"
-        st.metric("Apetito", appet)
+        alb_texto = "Positivo" if alb_val > 0 else "Negativo"
+        col_lab2.metric("Albúmina Orina (al)", f"{alb_texto} ({int(alb_val)})")
+        col_lab2.metric("Glucosa (bgr)", f"{p_data.get('bgr', '?')} mg/dL")
+        col_lab3.metric("Densidad Orina (sg)", f"{p_data.get('sg', '?')}")
+
 
     # --- BLOQUE DE AUDITORÍA DE DATOS BRUTOS ---
     with st.expander("Ver Registro Completo"):
