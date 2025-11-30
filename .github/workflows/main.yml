@@ -28,8 +28,7 @@ jobs:
         pip install pytest
 
   
-    - name: Run Dummy Test
+    - name: Run Pytest Validation
       run: |
-        # Esto buscará archivos test_*.py en la carpeta tests/ y los ejecutará
-        # Si no tenéis tests, no pasa nada, si creas uno vacío, dará OK.
-        echo "¡El entorno se ha instalado correctamente!"
+        # Este comando busca y ejecuta todos los tests creados (incluyendo el dummy)
+        pytest
