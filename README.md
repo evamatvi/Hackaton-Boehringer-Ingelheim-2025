@@ -16,7 +16,7 @@ Equipo-equipo-debug-queens-5/
 │   ├── data.csv
 │   └── reglas_descubiertas_ia.txt
 │
-├── plots/                 <-- Todas las imágenes que has generado
+├── plots/                 <-- Todas las imágenes generadas
 │   ├── 1_balance_clases.png
 │   ├── ...
 │   └── 7_learning_curve.png
@@ -25,18 +25,21 @@ Equipo-equipo-debug-queens-5/
 │
 ├── src/                   
 │   │
-│   │   # --- EL NÚCLEO (Core) ---
+│   │   # --- EL NÚCLEO (Core - La App Funcional) ---
+│   ├── app.py (La web con Streamlit)
 │   ├── data_processor.py  (Limpiar y procesar base de datos)
-│   ├── data_validation_plots.py (General los plots para entender dataset de entrenamiento procesado)
-│   ├── train.py           (Entrnador del Gradient Boosting)
-│   ├── app.py             (La Web - La crearemos ahora)
+│   ├── data_validation_plots.py (General los plots para entender dataset de entrenamiento) 
+│   ├── train.py  (Genera el modelo_xgb.pkl)
+│   ├── utils_demo_data.py  (Genera casos mas representativos)
 │   │
-│   │   # --- LOS ANALISTAS (Support) ---
-│   │   # Sugiero ponerles prefijo 'analysis_' para agruparlos
-│   ├── analysis_basic.py        <-- (Era visualization.py)
-│   ├── analysis_auditoria.py    <-- (Era audit_overfitting.py / deep_audit)
-│   ├── analysis_estres.py       <-- (Era stress_test.py)
-│   └── analysis_plots.py        <-- (Era validation_plots.py)
+│   │   # --- LOS AUDITORES (Data Science & Validation) ---
+│   ├── analysis_eda_basic.py      <-- (Era visualization.py) Gráficos de Datos (Barras, Heatmap)
+│   ├── audit_1_metrics.py         <-- (Era validation_plots.py) Matriz Confusión y ROC
+│   ├── audit_2_learning_curves.py <-- (Era plot_learning_curve.py) Detección de Overfitting
+│   ├── audit_3_robustness.py      <-- (Era stress_test.py) Importancia de Variables (Cajitas)
+│   ├── audit_4_sanity_check.py    <-- (Era deep_audit_final.py) Prueba "No Invasiva"
+│   ├── audit_5_rules.py           <-- (Era audit_overfitting.py) Reglas de texto del árbol
+│   └── audit_6_explainability.py  <-- (Era model_analysis.py) SHAP y Confianza
 │
 └── README.md
 
