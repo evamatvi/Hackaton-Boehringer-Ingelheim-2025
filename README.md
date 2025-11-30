@@ -12,11 +12,15 @@ Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
 Equipo-equipo-debug-queens-5/
 │
 ├── data/                  
-│   ├── clean_data_debug.csv
+│   ├── clean_data_.csv
 │   ├── data.csv
 │   └── reglas_descubiertas_ia.txt
 │
-├── plots/                 <-- Todas las imágenes generadas
+├── demo/                  
+│   ├── PAC1.png
+│   ├── ...
+│   └── PAC2.png
+├── plots/                 
 │   ├── 1_balance_clases.png
 │   ├── ...
 │   └── 7_learning_curve.png
