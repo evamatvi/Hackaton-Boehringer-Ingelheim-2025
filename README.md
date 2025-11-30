@@ -53,15 +53,6 @@ Equipo-equipo-debug-queens-5/
 
 ```
 
-
-
-- `src/` → Código fuente principal
-- `tests/` → Pruebas automáticas
-- `docs/` → Documentación del proyecto
-- `data/` → Datos locales (no versionados; no subir datos sensibles) y los datos procesados para verificación
-- `plots/` → Gráficos en png que explican los datos usados para entrenar el modelo de IA
-- `.github/workflows/` → Integración continua (CI)
-
 ## 🚀 Cómo empezar
 1. Clona el repositorio:
    ```bash
