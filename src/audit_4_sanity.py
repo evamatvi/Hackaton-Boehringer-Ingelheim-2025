@@ -42,7 +42,7 @@ def deep_audit_final():
     
     acc = accuracy_score(y_test, model.predict(X_test))
     
-    print(f"\n Precisión Final disminuyendo los datos usados para la predicción: {acc:.2%}")
+    print(f"\n Precisión Final 'A Ciegas': {acc:.2%}")
     
     # Interpretación automática para Eva
     if acc < 0.90:
@@ -53,7 +53,7 @@ def deep_audit_final():
     else:
         print("\n WOW: Sigue siendo alto (>90%).")
         print("   Esto significa que solo con saber si tienes Diabetes e Hipertensión,")
-        print("   la IA ya predice casi todo. ¡El dataset es muy determinista!")
+        print("   la IA ya adivina casi todo. ¡El dataset es muy determinista!")
 
 if __name__ == "__main__":
     deep_audit_final()

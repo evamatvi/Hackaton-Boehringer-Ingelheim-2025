@@ -218,7 +218,7 @@ if selected == "Consulta Médica":
         # Creamos una proyección simple basada en la Creatinina actual del paciente
         # Si la creatinina es 1.2, asumimos que seguirá subiendo ligeramente.
         sc_base = p_data.get('sc', 1.0)
-            
+
         placeholder_data = pd.DataFrame({
             'Tiempo (Meses)': [0, 6, 12, 18],
             'Creatinina Proyectada': [sc_base, sc_base + 0.2, sc_base + 0.4, sc_base + 0.6],

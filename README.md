@@ -11,6 +11,8 @@ Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
 ```
 Equipo-equipo-debug-queens-5/
 │
+├── memoria_proyecto//                  
+│   ├── Memoria_Proyecto.PDF
 ├── data/                  
 │   ├── clean_data_.csv
 │   ├── data.csv
@@ -52,6 +54,24 @@ Equipo-equipo-debug-queens-5/
 └── README.md
 
 ```
+## Introducción
+
+Con este proyecto buscamos desarrollar una herramienta clínica inteligente capaz de detectar de manera precoz la enfermedad renal crónica.
+
+## Descripción del proyecto
+
+El sistema combina dos partes principales:
+Un modelo de inteligencia artificial: Entrenado con Gradient Boosting para clasificar el riesgo renal (bajo, moderado o alto) a partir de datos clínicos.
+Una aplicación en Streamlit, que sirve como interfaz para que el profesional sanitario pueda ver el riesgo de cada paciente de manera visual.
+
+## Plan técnico del proyecto
+Se usa la base de datos UCI CKD con 400 pacientes y 25 variables con una distribución de clases de 60% enfermos y 40% sanos.
+
+## Interfaz usuario
+Para ejecutar la interfaz del usuario, se debe usar el comando streamlit run src/app.py
+
+# IMPORTANTE: 
+Toda la memoria y explicación del proyecto en detalle, tanto el marco médico como técnico, se encuentra en el PDF de la carpeta memoria_proyecto/
 
 ## 🚀 Cómo empezar
 1. Clona el repositorio:
@@ -61,7 +81,7 @@ Equipo-equipo-debug-queens-5/
 2. Instala dependencias (elige tu stack):
    - **Python**:
      ```bash
-     pip install -r requirements.txt  # si existe
+     pip install -r requirements.txt  
      pip install pytest
      ```
    - **Node**:
