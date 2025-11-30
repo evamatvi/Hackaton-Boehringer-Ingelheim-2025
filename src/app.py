@@ -217,15 +217,15 @@ if selected == "Consulta Médica":
         
         # Creamos una proyección simple basada en la Creatinina actual del paciente
         # Si la creatinina es 1.2, asumimos que seguirá subiendo ligeramente.
-    sc_base = p_data.get('sc', 1.0)
+        sc_base = p_data.get('sc', 1.0)
+            
+        placeholder_data = pd.DataFrame({
+            'Tiempo (Meses)': [0, 6, 12, 18],
+            'Creatinina Proyectada': [sc_base, sc_base + 0.2, sc_base + 0.4, sc_base + 0.6],
+        }).set_index('Tiempo (Meses)')
         
-    placeholder_data = pd.DataFrame({
-        'Tiempo (Meses)': [0, 6, 12, 18],
-        'Creatinina Proyectada': [sc_base, sc_base + 0.2, sc_base + 0.4, sc_base + 0.6],
-    }).set_index('Tiempo (Meses)')
-    
-    st.line_chart(placeholder_data['Creatinina Proyectada'])
-    st.caption("Gráfico simulado. Muestra el potencial de la herramienta para monitorizar la progresión de la enfermedad si se integran datos históricos.")
+        st.line_chart(placeholder_data['Creatinina Proyectada'])
+        st.caption("Gráfico simulado. Muestra el potencial de la herramienta para monitorizar la progresión de la enfermedad si se integran datos históricos.")
 
 
     # --- BLOQUE DE AUDITORÍA DE DATOS BRUTOS ---
