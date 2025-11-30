@@ -1,6 +1,4 @@
 name: CI de Debug Queens 👑
-
-# ¿Cuándo se activa? Al hacer push a la rama main
 on:
   push:
     branches: [ "main" ]
@@ -29,7 +27,7 @@ jobs:
         # Instalamos librerías de test por si acaso
         pip install pytest
 
-    # 4. (El Truco) Ejecutar un test tonto para que salga el check verde ✅
+  
     - name: Run Dummy Test
       run: |
         # Esto buscará archivos test_*.py en la carpeta tests/ y los ejecutará
