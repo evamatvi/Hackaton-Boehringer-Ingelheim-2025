@@ -23,7 +23,11 @@ Equipo-equipo-debug-queens-5/
 ├── plots/                 
 │   ├── 1_balance_clases.png
 │   ├── ...
-│   └── 7_learning_curve.png
+│   ├── 8_learning_curve.png
+│   ├── Figure_1.png
+│   ├── Figure_2.png
+│   ├── stress_audit2
+│   └── Result_training1.png
 │
 ├── model_xgb.pkl          <-- El "CEREBRO"
 │
