@@ -143,18 +143,17 @@ if selected == "Consulta Médica":
         st.info("Por favor, carga el archivo de pacientes en el menú lateral.")
         st.stop()
 
-if patient_df is not None:
     # Selector de Paciente
     st.markdown("### Buscador de Pacientes")
     
+    # Buscador de Pacientes
+    col_search, _ = st.columns([1, 2])
     if 'id' in patient_df.columns:
-        patient_ids = patient_df['id'].tolist()
-        # Buscamos columnas clave para mostrar en el selectbox si existen
-        # (Opcional: podrías personalizar esto más)
+        ids = patient_df['id'].tolist()
     else:
-        patient_ids = patient_df.index.tolist()
-        
-    selected_id = st.selectbox("Seleccionar CIP / ID Paciente:", patient_ids)
+        ids = patient_df.index.tolist()
+    with col_search:
+        selected_id = st.selectbox("Buscar Paciente (CIP/ID):", ids)
     
     # Extraer datos del paciente seleccionado
     if 'id' in patient_df.columns:
@@ -165,9 +164,9 @@ if patient_df is not None:
     st.markdown("---")
     
     # --- MOSTRAR DATOS DEL PACIENTE (Ficha Clínica) ---
-    st.subheader(f"Datos del paciente: {selected_id}")
+    st.subheader(f"Ficha Clínica: {selected_id}")
 
-    tab_clinica, tab_lab = st.tabs(["Historia", "Analítica"])
+    tab_clinica, tab_lab, tab_seg = st.tabs(["Historia", "Analítica", "Seguimiento"])
     
     with tab_clinica:
         col_a, col_b, col_c, col_d = st.columns(4)
@@ -195,6 +194,39 @@ if patient_df is not None:
         col_lab2.metric("Glucosa (bgr)", f"{p_data.get('bgr', '?')} mg/dL")
         col_lab3.metric("Densidad Orina (sg)", f"{p_data.get('sg', '?')}")
 
+    with tab_seg:
+        st.subheader("Plan de Seguimiento y Evolución")
+        st.markdown("---")
+        
+        st.info("Este módulo simula la funcionalidad de gestión crónica. Su integración requiere la conexión a los sistemas EHR del hospital (datos históricos longitudinales).")
+
+        # 1. Visión general
+        st.markdown("#### Trazabilidad de Acciones")
+        st.write("Aquí se mostraría la acción recomendada junto a la fecha de la próxima cita.")
+        
+        # Placeholder para la acción final
+        # Usamos markdown para tener control total sobre el tamaño del texto.
+        st.markdown(f"""
+        **Próxima Acción Prescrita:** <span style="font-size: 1.2em; font-weight: bold; color: orange;">
+        Vigilancia Activa (3 meses)
+        </span>
+        """, unsafe_allow_html=True)
+        # 2. Gráfico de Evolución
+        st.markdown("#### Evolución de la Función Renal")
+        st.warning("Evolución de la Función Renal (Simulación Proyectada) para monitorizar la curva de la Creatinina o del eGFR del paciente a lo largo del tiempo.")
+        
+        # Creamos una proyección simple basada en la Creatinina actual del paciente
+        # Si la creatinina es 1.2, asumimos que seguirá subiendo ligeramente.
+        sc_base = p_data.get('sc', 1.0)
+
+        placeholder_data = pd.DataFrame({
+            'Tiempo (Meses)': [0, 6, 12, 18],
+            'Creatinina Proyectada': [sc_base, sc_base + 0.2, sc_base + 0.4, sc_base + 0.6],
+        }).set_index('Tiempo (Meses)')
+        
+        st.line_chart(placeholder_data['Creatinina Proyectada'])
+        st.caption("Gráfico simulado. Muestra el potencial de la herramienta para monitorizar la progresión de la enfermedad si se integran datos históricos.")
+
 
     # --- BLOQUE DE AUDITORÍA DE DATOS BRUTOS ---
     with st.expander("Ver Registro Completo"):
@@ -216,84 +248,123 @@ if patient_df is not None:
     st.markdown("---")
     
     # --- PREDICCIÓN DE LA IA ---
-    st.markdown("### Análisis de Riesgo (IA)")
+    st.markdown("---")
+    st.markdown("### Análisis de Riesgo")
+    
+    # 1. PREPARACIÓN DE DATOS PARA LA PREDICCIÓN (Solo ordenar)
     
     try:
-        # Preparar datos para el modelo (ordenar columnas)
+        # Creamos un DataFrame de una fila a partir de la Series p_data
+        df_prediccion = pd.DataFrame([p_data]) 
+
+        # CÁLCULOS CRÍTICOS (Feature Engineering)
+        # Re-calculamos por si acaso, o los traemos del p_data.
+        # Dado que p_data ya tiene estos valores, solo necesitamos asegurarnos de que la IA los recibe.
+        
+        # Ordenar columnas para la IA
         cols_modelo = model.get_booster().feature_names
-        input_data = pd.DataFrame([p_data])
         for c in cols_modelo:
-            if c not in input_data.columns: input_data[c] = 0
-        
-        input_data = input_data[cols_modelo]
-        
-        # Predecir Probabilidad
-        prob = model.predict_proba(input_data)[0][1]
-        
-        c_res1, c_res2 = st.columns([1, 2])
-        riesgo_nivel = "Bajo"
+            if c not in df_prediccion.columns: 
+                df_prediccion[c] = 0
+        df_prediccion = df_prediccion[cols_modelo]
 
-        with c_res1:
-            st.subheader("Nivel de Alerta")
-            # --- LÓGICA DE TRIAJE Y ELIMINACIÓN DE % ---
-            if prob < 0.40:
-                st.success("🟢 BAJO RIESGO")
-                st.caption(f"Probabilidad estimada: {prob:.1%}")
-                riesgo_nivel = "Bajo"
-            else:
-                # Si IA ve riesgo (>40%), miramos la creatinina para decidir gravedad (Alto vs Medio)
-                if p_data.get('sc', 0) <= 1.3:
-                    st.warning("🟠 RIESGO MEDIO")
-                    st.metric("Alerta:", "Estadio Temprano", delta_color="off")
-                    riesgo_nivel = "Medio"
-                else:
-                    st.error("🔴 ALTO RIESGO")
-                    st.metric("Alerta:", "Daño Crítico", delta_color="inverse")
-                    riesgo_nivel = "Alto"
-
-        with c_res2:
-            st.info("**Análisis de Factores:**")
-            reasons = []
-            
-            # --- FACTORES DETERMINANTES (Lenguaje Clínico) ---
-            
-            # 1. Ratio Renal (El factor más importante)
-            if p_data.get('renal_risk_ratio', 0) > 1.3:
-                reasons.append(f"- **DAÑO FILTRANTE SEVERO:** Creatinina y Albúmina combinadas superan el umbral de riesgo (Ratio: {p_data['renal_risk_ratio']:.2f}).")
-            elif p_data.get('renal_risk_ratio', 0) > 0.8:
-                reasons.append(f"- **Ratio Renal EN ALERTA:** Valores limítrofes, sugiriendo inicio de daño ({p_data['renal_risk_ratio']:.2f}).")
-                
-            # 2. Historial
-            if p_data.get('history_score', 0) >= 2:
-                reasons.append(f"- **MULTIPATOLOGÍA:** Paciente con {int(p_data['history_score'])} antecedentes (HTN y/o DM) que incrementan el riesgo renal.")
-            
-            # 3. Anemia
-            if p_data.get('hemo', 15) < 12.5:
-                reasons.append(f"- **ANEMIA DETECTADA:** Hemoglobina baja ({p_data['hemo']}). Posible signo de fallo renal subclínico.")
-            
-            # 4. Presión
-            if p_data.get('bp_alarm', 0) == 1:
-                reasons.append("- **HIPERTENSIÓN:** Presión arterial alta o historial descontrolado.")
-
-            # Imprimir razones
-            if not reasons and riesgo_nivel == "Bajo":
-                st.write("✅ Perfil estable. No se detectan anomalías en los biomarcadores.")
-            elif not reasons:
-                st.write("- Patrón complejo detectado por el algoritmo.")
-            else:
-                for r in reasons: st.write(r)
-
-        # RECOMENDACIONES FINALES
-        st.markdown("---")
-        if riesgo_nivel == "Alto":
-            st.error("**🚑 Acción:** Derivación urgente a Nefrología. Daño renal visible.")
-        elif riesgo_nivel == "Medio":
-            st.warning("**⚠️ Acción:** Vigilancia activa (repetir analítica en 3 meses). Control estricto de TA/Glucosa.")
-        else:
-            st.success("**✅ Acción:** Control rutinario anual.")
-
+        # 2. PREDICCIÓN
+        prob = model.predict_proba(df_prediccion)[0][1]
+    
     except Exception as e:
-        st.error(f"Error en predicción: {e}")
+        st.error(f"Error al ejecutar el modelo: {e}")
+        st.stop()
+    
+    # 3. LÓGICA DE TRIAJE (Guardarraíl Clínico)
+    riesgo_nivel = "Bajo"
+    descripcion_nivel = "Seguimiento Rutinario"
+    color = "#2ecc71" # Verde
+
+    if prob >= 0.40:
+        if p_data.get('sc', 0) <= 1.3:
+            color = "#f39c12" # Naranja
+            riesgo_nivel = "Medio"
+            descripcion_nivel = "Alerta Temprana - Vigilancia"
+        else:
+            color = "#e74c3c" # Rojo
+            riesgo_nivel = "Alto"
+            descripcion_nivel = "Perfil Compatible con ERC Avanzada"
+
+    # --- 4. DISPLAY FINAL (Eliminando % de la vista principal) ---
+    col_res1, col_res2 = st.columns([1, 3.5])
+    
+    with col_res1:
+        # Tarjeta de Riesgo HTML/Markdown (Muestra Riesgo y Descripción)
+        st.markdown(f"""
+        <div style="background-color: {color}; 
+                    padding: 6px;                 
+                    border-radius: 10px; 
+                    color: white;
+                    text-align: center;">  
+            <h1 style="color: white; margin: 0; font-size: 22px;">{riesgo_nivel.upper()}</h1>  
+            <p style="color: white; margin: 0; font-size: 11px;">{descripcion_nivel}</p>    
+        </div>
+        """, unsafe_allow_html=True)
+  
+    with col_res2:
+        st.info("**Factores Determinantes:**")
+        
+        reasons = []
+        
+        # --- 1. Lógica para desglosar la MULTIPATOLOGÍA ---
+        comorbidities = []
+        if p_data.get('htn', 0) == 1:
+            comorbidities.append("Hipertensión")
+        if p_data.get('dm', 0) == 1:
+            comorbidities.append("Diabetes Mellitus")
+        if p_data.get('cad', 0) == 1:
+            comorbidities.append("Enf. Coronaria")
+
+        if comorbidities:
+                reasons.append(f"**MULTIPATOLOGÍA ({len(comorbidities)}):** {', '.join(comorbidities)}.")
+        
+        # --- 2. Chequeos de causas (Los demás factores) ---
+        
+        if p_data.get('renal_risk_ratio', 0) > 1.3:
+            reasons.append(f"**DAÑO FILTRANTE SEVERO:** Ratio Renal Crítico ({p_data['renal_risk_ratio']:.2f}).")
+        elif p_data.get('renal_risk_ratio', 0) > 0.8:
+            reasons.append(f"**Ratio Renal EN ALERTA:** Valores limítrofes ({p_data['renal_risk_ratio']:.2f}).")
+        
+        # --- SIGNOS FÍSICOS Y SÍNTOMAS ---
+        if p_data.get('hemo', 15) < 12.5:
+            reasons.append(f"**ANEMIA DETECTADA:** Hemoglobina baja ({p_data['hemo']}).")
+
+        if p_data.get('ane', 0) == 1:
+            reasons.append("**DIAGNÓSTICO ANEMIA:** Historial de anemia (Refuerza el valor de Hemoglobina baja).")
+        
+        if p_data.get('pe', 0) == 1:
+            reasons.append("**EDEMA PEDIO:** Signo físico de retención de líquidos.")
+        
+        if p_data.get('appet', 0) == 1:
+            reasons.append("**PÉRDIDA DE APETITO:** Síntoma asociado a la acumulación de toxinas (uremia).")
+
+        if p_data.get('bp_alarm', 0) == 1:
+            reasons.append("**HTN Descontrolada:** Presión arterial alta o historial descontrolado.")
+
+        # --- 3. Imprimir y Finalizar ---
+        if not reasons and riesgo_nivel == "Bajo":
+            st.write("Perfil estable. No se detectan anomalías graves.")
+        elif not reasons:
+            st.write("Patrón complejo detectado por algoritmo.")
+        else:
+            for r in reasons: 
+                st.markdown(r)
+
+        # --- RECOMENDACIONES FINALES ---
+        st.markdown("---")
+        st.markdown("#### Análisis de Riesgo")
+        
+        if riesgo_nivel == "Alto":
+            st.error("**DERIVACIÓN URGENTE:** Solicitar eGFR y derivar a Nefrología. Daño visible.")
+        elif riesgo_nivel == "Medio":
+            st.warning("**VIGILANCIA ACTIVA:** Repetir analítica en 3 meses y control estricto de TA/Glucosa.")
+        else:
+            st.success("**CONTROL RUTINARIO:** Mantener hábitos saludables y revisión anual.")
 
     
 # --- PÁGINA OCULTA: VALIDACIÓN TÉCNICA ---
