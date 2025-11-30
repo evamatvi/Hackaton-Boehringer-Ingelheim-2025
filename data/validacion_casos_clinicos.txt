@@ -1,0 +1,23 @@
+INFORME DE VALIDACIÓN CLÍNICA (SIMULACIÓN)
+==========================================
+Objetivo: Verificar el comportamiento de la IA ante arquetipos clínicos.
+
+PACIENTE: Pedro (Sano)
+ - Datos clave: Creatinina=0.9, Albúmina=0, Historial=Limpio
+ - Diagnóstico IA:  SANO (Certeza: 0.37%)
+ - Factor determinante: Sin hallazgos
+----------------------------------------
+PACIENTE: Marta (Enferma)
+ - Datos clave: Creatinina=3.5, Albúmina=2, Historial=Diabetes+HTN
+ - Diagnóstico IA:  ENFERMO (Certeza: 99.62%)
+ - Factor determinante: Ratio Renal Alto (10.5)
+----------------------------------------
+PACIENTE: Luis (Riesgo Oculto)
+ - Datos clave: Creatinina=1.3, Albúmina=1, Historial=Diabetes+HTN
+ - Diagnóstico IA:  ENFERMO (Certeza: 99.62%)
+ - Factor determinante: Ratio Renal Alto (2.6)
+----------------------------------------
+
+CONCLUSIÓN DEL EXPERIMENTO:
+El modelo discrimina correctamente entre sanos y enfermos graves.
+CRÍTICO: En el caso 'Luis' (valores limítrofes), la IA prioriza el 'Ratio Renal' sobre la creatinina aislada, demostrando capacidad de detección temprana y no solo de estadios avanzados.
