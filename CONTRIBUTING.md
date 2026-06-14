@@ -1,14 +1,11 @@
 # Guía de Contribución
 
-## Flujo de trabajo
-1. Crea una rama desde `main`: `feature/<nombre>`
-2. Commits pequeños y claros (puedes usar Conventional Commits).
-3. Abre un Pull Request a `main` y pide revisión.
-4. La CI debe pasar antes de fusionar.
+Ideas de mejora abiertas para el proyecto:
 
-## Estilo (elige lo que aplique)
-- **Node**: eslint + prettier
-- **Python**: ruff/flake8 + black + pytest
-
-## Tests
-Añade tests en `tests/` siempre que sea posible.
+- Conectar la carga de datos directamente al EHR del hospital, en lugar del cargador manual de CSV actual.
+- Implementar de forma real la evolución de la función renal (creatinina / eGFR), que ahora mismo es una proyección simulada en `app.py`.
+- Mostrar la explicabilidad SHAP por paciente en la interfaz (actualmente los factores determinantes se derivan de reglas fijas).
+- Validar el modelo con un dataset externo distinto al UCI CKD, ya que el rendimiento tan alto solo aplica a ese dataset concreto.
+- Añadir tests automáticos en `tests/`, especialmente para `data_processor.py` (limpieza y feature engineering).
+- Configurar un workflow de CI (GitHub Actions) que ejecute los linters y los tests en cada Pull Request.
+- Unificar los nombres de archivo entre el código y la estructura del repositorio.
