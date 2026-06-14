@@ -162,6 +162,7 @@ Se abrirá en `http://localhost:8501`. Ve a **Consulta Médica**, sube un CSV de
 
 Toda la memoria y explicación del proyecto en detalle, tanto el marco médico como el técnico, se encuentra en el PDF de la carpeta **`memoria_proyecto/`**.
 
+---
 
 ## Aviso importante
 
