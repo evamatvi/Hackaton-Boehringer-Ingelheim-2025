@@ -79,6 +79,7 @@ Equipo-equipo-debug-queens-5/
 ├── LICENSE
 └── README.md
 
+```
 ---
 
 ## Plan técnico del proyecto
@@ -161,54 +162,12 @@ Se abrirá en `http://localhost:8501`. Ve a **Consulta Médica**, sube un CSV de
 
 Toda la memoria y explicación del proyecto en detalle, tanto el marco médico como el técnico, se encuentra en el PDF de la carpeta **`memoria_proyecto/`**.
 
----
-
-## Criterios de evaluación (orientativo)
-
-- Claridad del problema y solución
-- Calidad técnica (código, tests, CI)
-- Demo funcional / UX
-- Impacto y viabilidad
-- Presentación / pitch
-
----
-
-## Seguridad y datos
-
-- No subas secretos (tokens, claves) ni datos sensibles.
-- Usa variables de entorno y `.env` (ignorado por Git).
-
----
-
-## Entrega final
-
-- Crear un **Release** con etiqueta `v1.0-hackathon` con README actualizado, instrucciones y demo.
-- PowerPoint del proyecto final.
-- Mockup si aplica.
-
----
-
-## Licencia
-
-Este proyecto se distribuye bajo **Apache License 2.0**. Las contribuciones incluyen una concesión de derechos de **patentes** asociadas al código aportado, según los términos de la licencia.
-
-Consulta el archivo [`LICENSE`](LICENSE) para más detalle.
-
----
-
-## Créditos
-
-Proyecto desarrollado por el **Equipo 5 "Debug Queens"** (Eva y Miriam) para el **Hackathon Boehringer Ingelheim 2025**.
-
----
 
 ## Aviso importante
 
 Este proyecto es un **prototipo desarrollado en un hackathon** con fines demostrativos y educativos.
 
 El rendimiento muy alto observado (cercano al 100% de acierto) corresponde a este dataset concreto, que es especialmente limpio y separable. En un entorno clínico real —con mayor variabilidad entre pacientes, registros incompletos y diferencias entre laboratorios— **es esperable un rendimiento notablemente inferior**.
-
-**No es un dispositivo médico ni debe utilizarse para tomar decisiones diagnósticas reales.** Cualquier sospecha de ERC debe confirmarse con pruebas clínicas validadas (como el Filtrado Glomerular Estimado) y la valoración de un profesional sanitario.
 
 ---
 ## Autoras
